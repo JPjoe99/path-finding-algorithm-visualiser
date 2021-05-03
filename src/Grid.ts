@@ -11,6 +11,7 @@ class Grid {
         for (let i = 0; i < yin; i++) {
             for (let j = 0; j < xin; j++) {
                 let id: number = (xin * i) + j;
+                // console.log(`x: ${j}, y: ${i}, id: ${id}`);
                 this.squares.push(new Square(j, i, id));
                 this.squares[(xin * i) + j].placeNode(new Node(j, i, id));
             }

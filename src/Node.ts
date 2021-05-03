@@ -4,7 +4,9 @@ class Node extends Object {
     private distance: number;
     private visitStatus: boolean;
     private nodeThrough: Node;
+    private nodesPastThrough: Array<Node> = [];
     private status: string;
+    private numberOfEdges: number;
     constructor(xin: number, yin: number, id: number) {
         super(xin, yin, id, "N");
         this.visitStatus = false;
@@ -13,8 +15,20 @@ class Node extends Object {
     // setAsCurrentNode(): void {
     //     this.currentNode = true;
     // }
+    getNodesPastThrough(): Array<Node> {
+        return this.nodesPastThrough;
+    }
+    addNodePastThrough(node: Node): void {
+        this.nodesPastThrough.push(node);
+    }
     setDistance(number: number): void {
         this.distance = number;
+    }
+    setNumberOfEdges(number: number): void {
+        this.numberOfEdges = number;
+    }
+    getNumberOfEdges(): number {
+        return this.numberOfEdges;
     }
     setStatus(status: string): void {
         this.status = status;
@@ -27,6 +41,9 @@ class Node extends Object {
     // }
     setVisitStatus(status: boolean): void {
         this.visitStatus = status;
+    }
+    getVisitStatus(): boolean {
+        return this.visitStatus;
     }
     // getStatus(): string {
     //     return this.status;

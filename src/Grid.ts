@@ -1,6 +1,6 @@
 import {Square} from "./Square";
-import { VisitableNode } from "./VisitableNode";
-import { WallNode } from "./WallNode";
+import { VisitableNode } from "./Nodes/VisitableNode";
+import { WallNode } from "./Nodes/WallNode";
 
 class Grid {
     private squares: Array<Square> = [];

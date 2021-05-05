@@ -1,6 +1,7 @@
-import {Grid} from "./Grid";
-import {Node} from "./Node";
-import { Square } from "./Square";
+import {Grid} from "../Grid";
+import {Node} from "../Nodes/Node";
+import { Square } from "../Square";
+import { VisitableNode } from "../Nodes/VisitableNode";
 
 class Draw {
     private mainBody: HTMLDivElement;
@@ -41,13 +42,18 @@ class Draw {
         square.style.backgroundColor = `${colour}`;
         square.style.border = "";
     }
-    highlightPath(squareID: number): void {
-        let square = document.getElementById(`${squareID}`);
-        let img = document.createElement("img");
-        img.src = "https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png";
-        img.style.height = `100%`;
-        img.style.width = `100%`;
-        square.appendChild(img);
+    // highlightPath(squareID: number): void {
+    //     // let square = document.getElementById(`${squareID}`);
+    //     // let img = document.createElement("img");
+    //     // img.src = "https://img.icons8.com/material-outlined/24/000000/filled-circle--v1.png";
+    //     // img.style.height = `100%`;
+    //     // img.style.width = `100%`;
+    //     // square.appendChild(img);
+    // }
+    highlightShortestPath(shortestPath: Array<VisitableNode>): void {
+        for (let i = 0; i < shortestPath.length; i++) {
+            this.highlightSquare(shortestPath[i].getId(), "yellow");
+        }
     }
     unhighlightStart(squareID: number): void {
         let square = document.getElementById(`${squareID}`);
@@ -60,7 +66,6 @@ class Draw {
         img.style.height = `100%`;
         img.style.width = `100%`;
         square.appendChild(img);
-        // square.innerHTML = `<img src="https://img.icons8.com/ios-filled/50/000000/runner-starting-the-race.png"/>`;
     }
     highlightEnd(squareID: number): void {
         let square = document.getElementById(`${squareID}`);
@@ -69,6 +74,14 @@ class Draw {
         img.style.height = `100%`;
         img.style.width = `100%`;
         square.appendChild(img);
+    }
+    highlightVisitedNodes(visitedNodes: Array<VisitableNode>, colour: string): void {
+        for (let i = 0; i < visitedNodes.length; i++) {
+            this.highlightSquare(visitedNodes[i].getId(), colour);
+        }
+    }
+    clearVisitedNodes(visitedNodes: Array<VisitableNode>): void {
+        this.highlightVisitedNodes(visitedNodes, "white");
     }
     // drawMaze(gridIn: Grid): void {
     //     for (let i = 0; i < gridIn.getSquares().length; i++) {

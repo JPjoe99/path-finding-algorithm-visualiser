@@ -1,13 +1,11 @@
-abstract class Object {
+abstract class Node {
     private id: number;
     private x: number;
     private y: number;
-    private type: string;
-    constructor(x: number, y: number, id: number, type: string) {
+    constructor(id: number, x: number, y: number) {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.type = type;
     }
     getX(): number {
         return this.x;
@@ -17,10 +15,7 @@ abstract class Object {
     }
     getId(): number {
         return this.id;
-    }
-    getType(): string {
-        return this.type;
-    }
+    } 
 }
 
-export {Object};
+export {Node};

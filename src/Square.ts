@@ -1,4 +1,4 @@
-import {Node} from "./Node";
+import {Node} from "./Nodes/Node";
 
 class Square {
     private id: number;
@@ -25,12 +25,6 @@ class Square {
     setContent(content: Node): void {
         this.content = content;
     }
-    // placeNode(node: Node): void {
-    //     this.content = node;
-    // }
-    // placeWall(wall: Wall): void {
-    //     this.content = wall;
-    // }
 }
 
 export {Square};

@@ -3,14 +3,15 @@ import { Grid } from "./Grid";
 import { Logic } from "./logic";
 import { Node } from "./Node";
 import { Square } from "./Square"; 
-import { Wall } from "./Wall";
+import { VisitableNode } from "./VisitableNode";
+import { WallNode } from "./WallNode";
 
 class Application {
     private draw: Draw;
     private grid: Grid;
     private logic: Logic;
-    private startingNode: Node;
-    private endingNode: Node;
+    private startingNode: VisitableNode;
+    private endingNode: VisitableNode;
     private image: any;
     constructor(grid: Grid) {
         this.grid = grid;
@@ -37,7 +38,7 @@ class Application {
             imgElements[i].addEventListener("mousedown", this.grabImage);
         }
         let mazeButton = document.querySelector("#maze");
-        mazeButton.addEventListener("click", this.createMaze);
+        // mazeButton.addEventListener("click", this.createMaze);
     }
     private placeImage = (e: Event): void => {
         let selectedSquareID: any = (<HTMLElement>e.target).id;
@@ -45,22 +46,22 @@ class Application {
             let square = this.grid.getSquare(selectedSquareID);
             let squareX = square.getX();
             let squareY = square.getY();
-            square.placeWall(new Wall(squareX, squareY, selectedSquareID));
+            this.grid.placeWallOnSquare(selectedSquareID);
+            //square.placeWall(new WallNode(selectedSquareID, squareX, squareY));
             this.draw.highlightSquare(selectedSquareID, "gray");
         }
-        console.log(selectedSquareID);
         if (this.image.type == "start") {
             if (this.startingNode != null) {
                 this.draw.unhighlightStart(this.startingNode.getId());
             }
-            this.selectStartingNode(<Node>this.grid.getSquare(selectedSquareID).getContent())
+            this.selectStartingNode(<VisitableNode>this.grid.getSquare(selectedSquareID).getContent())
             this.draw.highlightStart(selectedSquareID);
         }
         else if (this.image.type == "end") {
             if (this.endingNode != null) {
                 this.draw.unhighlightStart(this.endingNode.getId());
             }
-            this.selectEndingNode(<Node>this.grid.getSquare(selectedSquareID).getContent());
+            this.selectEndingNode(<VisitableNode>this.grid.getSquare(selectedSquareID).getContent());
             this.draw.highlightEnd(selectedSquareID);
         }
         if (this.startingNode != null && this.endingNode != null) {
@@ -74,11 +75,10 @@ class Application {
     private runVisualiser = (): void => {
         this.runDijkstra();
     }
-    selectStartingNode(nodeIn: Node) {
+    selectStartingNode(nodeIn: VisitableNode) {
         this.startingNode = nodeIn;
     }
-    selectEndingNode(nodeIn: Node) {
-        console.log(nodeIn);
+    selectEndingNode(nodeIn: VisitableNode) {
         this.endingNode = nodeIn;
     }
     runDijkstra() {
@@ -105,32 +105,45 @@ class Application {
              currentNode = this.logic.getUnvisitedNodes()[0];
         }
         //this.logic.performDijkstra(currentNode);
-        this.logic.getVisitedNodes().push(this.logic.getEndingNode());
+        //this.logic.getVisitedNodes().push(this.logic.getEndingNode());
+        for (let i = 0; i < this.logic.getVisitedNodes().length; i++) {
+            this.draw.highlightSquare(this.logic.getVisitedNodes()[i].getId(), "green");
+                        // if (this.logic.getVisitedNodes()[i].getStatus() == "F") {
+            //     console.log(this.logic.getVisitedNodes()[i]);
+            // }
+        }
+        console.log(this.logic.getVisitedNodes());
+        let possiblePaths = [];
         for (let i = 0; i < this.logic.getVisitedNodes().length; i++) {
             if (this.logic.getVisitedNodes()[i].getStatus() == "F") {
-                console.log(this.logic.getVisitedNodes()[i]);
+                possiblePaths.push(this.logic.getVisitedNodes()[i]);
             }
         }
-        // console.log(this.logic.getVisitedNodes());
-        let finalNode = this.logic.getVisitedNodes()[this.logic.getVisitedNodes().length-1];
+        console.log(this.logic.getEndingNode());
+        // let finalNode = this.logic.getVisitedNodes()[this.logic.getVisitedNodes().length-1];
+        let finalNode = this.logic.getEndingNode();
+        // console.log(finalNode);
         while (finalNode.getNodePastThrough().getStatus() != "S") {
             shortestPath.push(finalNode);
             finalNode = finalNode.getNodePastThrough();
         }
         shortestPath.push(finalNode);
         shortestPath.shift();
-        // shortestPath.push(finalNode.getNodePastThrough());
-        console.log(shortestPath);
+        shortestPath.push(finalNode.getNodePastThrough());
+        // console.log(shortestPath);
 
         for (let i = 0; i < shortestPath.length; i++) {
-            // this.draw.highlightPath(shortestPath[i].getId());
+            // setTimeout(() => {
+            //     this.draw.highlightSquare(shortestPath[i].getId(), "yellow");   
+            // }, 1000);
+            //this.draw.highlightPath(shortestPath[i].getId());
             this.draw.highlightSquare(shortestPath[i].getId(), "yellow");
         }
     }
-    private createMaze = (): void => {
-        this.logic.generateMaze();
-        this.draw.drawMaze(this.grid);
-    }
+    // private createMaze = (): void => {
+    //     this.logic.generateMaze();
+    //     this.draw.drawMaze(this.grid);
+    // }
 }
 
 export {Application};

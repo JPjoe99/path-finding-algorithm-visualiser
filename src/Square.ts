@@ -1,12 +1,10 @@
 import {Node} from "./Node";
-import { Wall } from "./Wall";
-import {Object} from "./Object";
 
 class Square {
     private id: number;
     private x: number;
     private y: number;
-    private content: Object;
+    private content: Node;
     constructor(xin: number, yin: number, id: number) {
         this.x = xin;
         this.y = yin;
@@ -21,18 +19,18 @@ class Square {
     getId(): number {
         return this.id;
     }
-    getContent(): Object {
+    getContent(): Node {
         return this.content;
     }
-    setContent(content: Object): void {
+    setContent(content: Node): void {
         this.content = content;
     }
-    placeNode(node: Node): void {
-        this.content = node;
-    }
-    placeWall(wall: Wall): void {
-        this.content = wall;
-    }
+    // placeNode(node: Node): void {
+    //     this.content = node;
+    // }
+    // placeWall(wall: Wall): void {
+    //     this.content = wall;
+    // }
 }
 
 export {Square};

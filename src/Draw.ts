@@ -70,13 +70,15 @@ class Draw {
         img.style.width = `100%`;
         square.appendChild(img);
     }
-    drawMaze(gridIn: Grid): void {
-        for (let i = 0; i < gridIn.getSquares().length; i++) {
-            if (gridIn.getSquare(i).getContent().getType() == "W") {
-                this.highlightSquare(i, "gray");
-            }
-        }
-    }
+    // drawMaze(gridIn: Grid): void {
+    //     for (let i = 0; i < gridIn.getSquares().length; i++) {
+    //         if (gridIn.getSquare(i).getContent().getType() == "W") {
+    //             this.highlightSquare(i, "gray");
+    //         }
+    //     }
+    // }
+    // visualiseSearch(visitedNodes: Array<Node>): TimerHandler {
+    // }
 }
 
 export {Draw};

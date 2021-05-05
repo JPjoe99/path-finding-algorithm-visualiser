@@ -2,15 +2,16 @@ import { Grid } from "./Grid";
 import {Node} from "./Node";
 import { Square } from "./Square";
 import {Object} from "./Object";
-import { Wall } from "./Wall";
+import { VisitableNode } from "./VisitableNode";
+import { WallNode } from "./WallNode";
 
 class Logic {
     private grid: Grid;
-    private unvisitedNodes: Array<Node> = [];
-    private shortestPath: Array<Node> = [];
-    private visitedNodes: Array<Node> = [];
-    private startingNode: Node;
-    private endingNode: Node;
+    private unvisitedNodes: Array<VisitableNode> = [];
+    private shortestPath: Array<VisitableNode> = [];
+    private visitedNodes: Array<VisitableNode> = [];
+    private startingNode: VisitableNode;
+    private endingNode: VisitableNode;
     private totNumberOfEdges: number;
     constructor(grid: Grid) {
         this.grid = grid;
@@ -19,27 +20,27 @@ class Logic {
         let gridSquares: Array<Square> = grid.getSquares();
         for (let i = 0; i < gridSquares.length; i++) {
             let squareContent = gridSquares[i].getContent();
-            if (squareContent.getType() == "N") {
-                this.unvisitedNodes.push(<Node>squareContent);
+            if (squareContent instanceof Node) {
+                this.unvisitedNodes.push(<VisitableNode>squareContent);
             }
         }
         this.totNumberOfEdges = 0;
     }
-    getStartingNode(): Node {
+    getStartingNode(): VisitableNode {
         return this.startingNode;
     }
-    setStartingNode(node: Node): void {
+    setStartingNode(node: VisitableNode): void {
         this.startingNode = node;
         this.startingNode.setStatus("S");
     }
-    getEndingNode(): Node {
+    getEndingNode(): VisitableNode {
         return this.endingNode;
     }
-    setEndingNode(node: Node): void {
+    setEndingNode(node: VisitableNode): void {
         this.endingNode = node;
         this.endingNode.setStatus("F");
     }
-    getVisitedNodes(): Array<Node> {
+    getVisitedNodes(): Array<VisitableNode> {
         return this.visitedNodes;
     }
     resetVisitedNodes(): void {
@@ -50,15 +51,15 @@ class Logic {
         let gridSquares: Array<Square> = this.grid.getSquares();
         for (let i = 0; i < gridSquares.length; i++) {
             let squareContent = gridSquares[i].getContent();
-            if (squareContent.getType() == "N") {
-                this.unvisitedNodes.push(<Node>squareContent);
+            if (squareContent instanceof Node) {
+                this.unvisitedNodes.push(<VisitableNode>squareContent);
             }
         }
         for (let i = 0; i < this.unvisitedNodes.length; i++) {
             this.unvisitedNodes[i].setVisitStatus(false);
         }
     }
-    setShortestPath(shortestPath: Array<Node>): void {
+    setShortestPath(shortestPath: Array<VisitableNode>): void {
         this.shortestPath = shortestPath;
     }
     resetShortestPath(): void {
@@ -67,7 +68,7 @@ class Logic {
     getShortestPath(): Array<Node> {
         return this.shortestPath;
     }
-    getUnvisitedNodes(): Array<Node> {
+    getUnvisitedNodes(): Array<VisitableNode> {
         return this.unvisitedNodes;
     }
     setDistances(): void {
@@ -96,21 +97,24 @@ class Logic {
         for (let i = 0; i < this.grid.getSquares().length; i++) {
             let x = this.grid.getSquare(i).getX();
             let y = this.grid.getSquare(i).getY();
-            this.grid.getSquare(i).placeWall(new Wall(x, y, i));
+            this.grid.placeWallOnSquare(i);
         }
     }
-    performDijkstra(startNode: Node): void {
+    performAStart(startNode: Node): void {
+
+    }
+    performDijkstra(startNode: VisitableNode): void {
         // while (startNode.getStatus() != "F") {
             let unvisitedNodes = this.getUnvisitedNodes();
         // console.log(unvisitedNodes[0]);
         // unvisitedNodes.sort((a,b) => (a.getDistance() > b.getDistance() ? 1 : -1));
         // console.log(unvisitedNodes);
-            let nearestNeighbours: Array<Node> = [];
+            let nearestNeighbours: Array<VisitableNode> = [];
             let numberOfEdges: number = 4;
             //let dist = startNode.getDistance();
             let currentNumberOfEdges = this.totNumberOfEdges;
             for (let i = 0; i < unvisitedNodes.length; i++) {
-                if (unvisitedNodes[i].getType() != "W") {
+                if (!(unvisitedNodes[i] instanceof WallNode)) {
                     if ((startNode.getX() - unvisitedNodes[i].getX() == 1 || startNode.getX() - unvisitedNodes[i].getX() == -1)
                     && startNode.getY() - unvisitedNodes[i].getY() == 0 && startNode.getNodePastThrough() != unvisitedNodes[i]) {
                         nearestNeighbours.push(unvisitedNodes[i]);

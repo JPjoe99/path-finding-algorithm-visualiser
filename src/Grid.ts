@@ -1,5 +1,6 @@
-import {Node} from "./Node";
 import {Square} from "./Square";
+import { VisitableNode } from "./VisitableNode";
+import { WallNode } from "./WallNode";
 
 class Grid {
     private squares: Array<Square> = [];
@@ -11,9 +12,8 @@ class Grid {
         for (let i = 0; i < yin; i++) {
             for (let j = 0; j < xin; j++) {
                 let id: number = (xin * i) + j;
-                // console.log(`x: ${j}, y: ${i}, id: ${id}`);
                 this.squares.push(new Square(j, i, id));
-                this.squares[(xin * i) + j].placeNode(new Node(j, i, id));
+                this.squares[(xin * i) + j].setContent(new VisitableNode(id, j, i));
             }
         }
     }
@@ -26,21 +26,19 @@ class Grid {
     getSquares(): Array<Square> {
         return this.squares;
     }
-    getSquare(id: number): Square {
+    getSquare(squareId: number): Square {
         for (let i = 0; i < this.squares.length; i++) {
-            if (this.squares[i].getId() == id) {
+            if (this.squares[i].getId() == squareId) {
                 return this.squares[i];
             }
         }
     }
-    // selectNode(nodeId: number): void {
-    //     for (let i = 0; i < this.nodes.length; i++) {
-    //         if (this.nodes[i].getId() == nodeId) {
-    //             this.nodes[i].setAsCurrentNode();
-    //             console.log(this.nodes[i]);
-    //         }
-    //     }
-    // }
+    placeWallOnSquare(squareId: number): void {
+        let selectedSquare: Square = this.getSquare(squareId);
+        let x = selectedSquare.getX();
+        let y = selectedSquare.getY();
+        this.getSquare(squareId).setContent(new WallNode(squareId, x, y));
+    }
 }
 
 export {Grid};

@@ -12,6 +12,30 @@ html, body {
     /* justify-content: center;
     align-items: center; */
 }
+
+.container {
+    width: 100%;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    /* grid-gap: 20px; */
+}
+
+.col-1 { grid-column: span 1;}
+.col-2 { grid-column: span 2;}
+.col-3 { grid-column: span 3;}
+.col-4 { grid-column: span 4;}
+.col-5 { grid-column: span 5;}
+.col-6 { grid-column: span 6;}
+.col-7 { grid-column: span 7;}
+.col-8 { grid-column: span 8;}
+.col-9 { grid-column: span 9;}
+.col-10 { grid-column: span 10;}
+.col-11 { grid-column: span 11;}
+.col-12 { grid-column: span 12;}
+
 #main {
     display: grid;
     /* justify-content: center; */
@@ -34,11 +58,10 @@ html, body {
 .sidebar {
     margin: 0;
     padding: 0;
-    width: 19.876%;
     background-color: #f1f1f1;
     position: fixed;
     height: 100%;
-    overflow: auto;
+    /* overflow: auto; */
 }
 
 .sidebar a {
@@ -47,6 +70,10 @@ html, body {
     padding: 16px;
     text-decoration: none;
     /* text-align: center; */
+}
+
+.text-center {
+    text-align: center;
 }
 
 .sidebar #home {

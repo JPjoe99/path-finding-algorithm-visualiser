@@ -2,6 +2,7 @@ import { Grid } from "../Grid";
 import {Node} from "../Nodes/Node";
 import { Square } from "../Square";
 import { VisitableNode } from "../Nodes/VisitableNode";
+import { WallNode } from "../Nodes/WallNode";
 
 abstract class Algorithm {
     protected grid: Grid;
@@ -101,6 +102,22 @@ abstract class Algorithm {
             }
         }
         this.unvisitedNodes.sort((a,b) => (a.getDistance() > b.getDistance() ? 1 : -1));
+    }
+    findNearestNeighbours(node: VisitableNode): Array<VisitableNode> {
+        let nearestNeighbours: Array<VisitableNode> = [];
+        for (let i = 0; i < this.unvisitedNodes.length; i++) {
+            if (!(this.unvisitedNodes[i] instanceof WallNode)) {
+                if ((node.getX() - this.unvisitedNodes[i].getX() == 1 || node.getX() - this.unvisitedNodes[i].getX() == -1)
+                && node.getY() - this.unvisitedNodes[i].getY() == 0 && node.getNodePastThrough() != this.unvisitedNodes[i]) {
+                    nearestNeighbours.push(this.unvisitedNodes[i]);
+                }
+                else if ((node.getY() - this.unvisitedNodes[i].getY() == 1 || node.getY() - this.unvisitedNodes[i].getY() == -1)
+                && node.getX() - this.unvisitedNodes[i].getX() == 0 && node.getNodePastThrough() != this.unvisitedNodes[i]) {
+                    nearestNeighbours.push(this.unvisitedNodes[i]);
+                }
+            }
+        }
+        return nearestNeighbours;
     }
     setNumberOfEdges(): void {
         for (let i = 0; i < this.unvisitedNodes.length; i++) {

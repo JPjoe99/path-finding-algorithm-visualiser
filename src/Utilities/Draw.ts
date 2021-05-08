@@ -9,6 +9,7 @@ class Draw {
         this.mainBody = document.querySelector("#main");
     }
     drawGrid(gridIn: Grid): void {
+        console.log(this.mainBody.clientWidth);
         let grid = document.createElement("div");
         grid.id = "grid";
         grid.className = "grid-container";
@@ -16,8 +17,10 @@ class Draw {
         console.log(screen.availWidth);
         noSquaresX = Math.round(noSquaresX);
         console.log(noSquaresX);
-        grid.style.gridTemplateColumns = `repeat(${gridIn.getX()}, ${100 / gridIn.getX()}vw)`;
-        grid.style.gridTemplateRows = `repeat(${gridIn.getY()}, ${100/gridIn.getY()}vh`;
+        grid.style.gridTemplateColumns = `repeat(${gridIn.getX()}, ${30}px)`;
+        //grid.style.gridTemplateColumns = `repeat(${gridIn.getX()}, ${100 / gridIn.getX()}px)`;
+        //grid.style.gridTemplateRows = `repeat(${gridIn.getY()}, ${100/gridIn.getY()}px`;
+        grid.style.gridTemplateRows = `repeat(${gridIn.getY()}, ${30}px`;
         let squares: Array<Square> = gridIn.getSquares();
         // let nodes: Array<Node> = gridIn.getNodes();
         for (let i = 0; i < squares.length; i++) {
@@ -79,6 +82,30 @@ class Draw {
         for (let i = 0; i < visitedNodes.length; i++) {
             this.highlightSquare(visitedNodes[i].getId(), colour);
         }
+    }
+    execute(visitedNodes: Array<VisitableNode>, shortestPath: Array<VisitableNode>, colour: string): void {
+        let i = 0;
+        let handle = setInterval(() => {
+            this.highlightSquare(visitedNodes[i].getId(), colour);
+            i++;
+            if (i == visitedNodes.length) {
+                clearInterval(handle);
+                this.executeShortestPath(shortestPath);
+            }
+        }, 25);
+        // if (i == visitedNodes.length) {
+        //     clearInterval(handle);
+        // }
+    }
+    executeShortestPath(shortestPath: Array<VisitableNode>): void {
+        let i = 0;
+        let handle = setInterval(() => {
+            this.highlightSquare(shortestPath[i].getId(), "yellow");
+            i++;
+            if (i == shortestPath.length) {
+                clearInterval(handle);
+            }
+        }, 25);
     }
     clearVisitedNodes(visitedNodes: Array<VisitableNode>): void {
         this.highlightVisitedNodes(visitedNodes, "white");

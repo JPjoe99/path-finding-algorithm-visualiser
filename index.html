@@ -9,34 +9,43 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="sidebar">
-        <a id="home" class="active">VISUALISER</a>
-        <span>
-            <a>STARTING NODE <img id="start" aria-placeholder="start" class="sidebar-img" src="https://img.icons8.com/ios-filled/50/000000/runner-starting-the-race.png"></a>
-        </span>
-        <span>
-            <a>ENDING NODE <img id="end" aria-placeholder="end" class="sidebar-img" src="https://img.icons8.com/android/24/000000/finish-flag.png"></a>
-        </span>
-        <!-- <span> 
-            <a>UNVISITED NODE <img id="img" class="sidebar-img" src="https://img.icons8.com/ios-filled/50/000000/runner-starting-the-race.png"></a>
-        </span> -->
-        <span>
-            <a>WALL NODE <p id="wall" class="sidebar-img" style="background-color: gray; border: 1px solid black;"></p></a>
-        </span>
-        <!-- <button id="maze">Generate maze</button> -->
-        <!-- <div class="dropdown">
-            <button class="dropbtn">ALGORITHM</button>
-            <div class="dropdown-content">
-                <a>Dijkstra</a>
-                <a>A*</a>
+    <div id="content" class="container">
+        <div class="row">
+            <div class="col-2">
+                <div class="sidebar">
+                    <a id="home" class="active">VISUALISER</a>
+                    <span>
+                        <a>STARTING NODE <img id="start" aria-placeholder="start" class="sidebar-img" src="https://img.icons8.com/ios-filled/50/000000/runner-starting-the-race.png"></a>
+                    </span>
+                    <span>
+                        <a>ENDING NODE <img id="end" aria-placeholder="end" class="sidebar-img" src="https://img.icons8.com/android/24/000000/finish-flag.png"></a>
+                    </span>
+                    <!-- <span> 
+                        <a>UNVISITED NODE <img id="img" class="sidebar-img" src="https://img.icons8.com/ios-filled/50/000000/runner-starting-the-race.png"></a>
+                    </span> -->
+                    <span>
+                        <a>WALL NODE <p id="wall" class="sidebar-img" style="background-color: gray; border: 1px solid black;"></p></a>
+                    </span>
+                    <!-- <button id="maze">Generate maze</button> -->
+                    <div class="dropdown">
+                        <button class="dropbtn">ALGORITHM</button>
+                        <div class="dropdown-content">
+                            <a id="algo">Dijkstra</a>
+                            <a id="algo">A*</a>
+                        </div>
+                    </div>
+                    <div class="visualise-btn">
+                        <button class="visualise">VISUALISE</button>
+                    </div>
+                </div>
             </div>
-        </div> -->
-        <div class="visualise-btn">
-            <button class="visualise">VISUALISE</button>
+            <div class="col-10 text-center">
+                <div id="main"></div>
+            </div>
         </div>
     </div>
+  
     
-    <div id="main"></div>
     <script src="dist/bundle.js" type="module"></script>
 </body>
 </html>

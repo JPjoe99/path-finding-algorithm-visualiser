@@ -7,22 +7,6 @@ class Dijkstra extends Algorithm {
     constructor(grid: Grid) {
         super(grid);
     }
-    findNearestNeighbours(node: VisitableNode): Array<VisitableNode> {
-        let nearestNeighbours: Array<VisitableNode> = [];
-        for (let i = 0; i < this.unvisitedNodes.length; i++) {
-            if (!(this.unvisitedNodes[i] instanceof WallNode)) {
-                if ((node.getX() - this.unvisitedNodes[i].getX() == 1 || node.getX() - this.unvisitedNodes[i].getX() == -1)
-                && node.getY() - this.unvisitedNodes[i].getY() == 0 && node.getNodePastThrough() != this.unvisitedNodes[i]) {
-                    nearestNeighbours.push(this.unvisitedNodes[i]);
-                }
-                else if ((node.getY() - this.unvisitedNodes[i].getY() == 1 || node.getY() - this.unvisitedNodes[i].getY() == -1)
-                && node.getX() - this.unvisitedNodes[i].getX() == 0 && node.getNodePastThrough() != this.unvisitedNodes[i]) {
-                    nearestNeighbours.push(this.unvisitedNodes[i]);
-                }
-            }
-        }
-        return nearestNeighbours;
-    }
     findNumberOfEdges(node: VisitableNode): number {
         let numberOfEdges = 3;
         if ((node.getX() == 9 || node.getX() == this.grid.getX())) {
